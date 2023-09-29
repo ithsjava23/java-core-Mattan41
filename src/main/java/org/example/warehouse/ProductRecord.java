@@ -1,5 +1,8 @@
 package org.example.warehouse;
 
-public class ProductRecord {
+public class ProductRecord{
+
+
+
 
 }

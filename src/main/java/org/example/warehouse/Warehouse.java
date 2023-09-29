@@ -1,34 +1,37 @@
 package org.example.warehouse;
 
+import java.math.BigDecimal;
+import java.util.*;
+
+
 public class Warehouse {
 
+    //public static void main(String[] args) {}
 
     private String name;
+    private ProductRecord productRecord;
 
-    public Warehouse(String name) {
+
+    private Warehouse(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public static Warehouse getInstance(String name) {
+        return new Warehouse(name);
     }
 
-    public static Warehouse getInstance(String myStore) {
-        return new Warehouse(myStore);
+    public boolean isEmpty() {
 
     }
 
-    // todo: create method isEmpty
-    // todo: create method addProduct
-    //todo: create method getProduct
-    //todo: create method getProductByld
-    //todo: create method getProducts
-    //todo: create method getProductBy
-    //todo: create method getChangedProduct
-    //todo: create method getProductsGroupedByCategories
-    //todo: create method uuid
-    //todo: create method updateProductsPrice
+    public boolean getProducts() {
+    }
 
-
-
+    record Product(String name, Category category){
+    }
 }
+
+
+
+
+

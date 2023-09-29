@@ -3,7 +3,7 @@ package org.example.warehouse;
 import java.util.Objects;
 
 
-public class Category {
+public class Category implements Comparable{
     private String name;
 
     private Category(String name) {
@@ -12,6 +12,10 @@ public class Category {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -37,6 +41,11 @@ public class Category {
 
     public static Category of(String name) {
         return new Category(name);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 
 /*
