@@ -42,19 +42,19 @@ public class Warehouse {
         return new Warehouse(name);
     }
 
-    public static Optional<List<ProductRecord>> getProducts() {
+    public Optional<List<ProductRecord>> getProducts() {
         return Optional.ofNullable(products);
     }
 
-    public static Optional<List<ProductRecord>> isEmpty(Warehouse warehouse) {
-        return Warehouse.getProducts();
+    public Optional<List<ProductRecord>> isEmpty(Warehouse warehouse) {
+        return warehouse.getProducts();
     }
 
     public ProductRecord addProduct(UUID uuid, String product, Category category, BigDecimal price) {
         return new ProductRecord(UUID.randomUUID(), product, category, price);
     }
 
-    public ProductRecord getProductById (UUID uuid, List<ProductRecord> products) {
+    public ProductRecord getProductById (UUID uuid) {
 
             for (ProductRecord product : products) {
                 if (ProductRecord.uuid.equals(uuid)) {
