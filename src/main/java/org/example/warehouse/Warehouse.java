@@ -47,16 +47,11 @@ public class Warehouse {
 
     public List<ProductRecord> getProducts() {
         return Collections.unmodifiableList(addedProducts);
+    }
 
     public boolean isEmpty() {
         return addedProducts.isEmpty();
     }
-/*
-
-
-    }
-     */
-
 
     public ProductRecord addProduct(UUID uuid, String product, Category category, BigDecimal price) {
         return new ProductRecord(UUID.randomUUID(), product, category, price);
