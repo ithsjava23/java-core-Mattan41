@@ -12,20 +12,22 @@ public class Warehouse {
         // Skapar ett nytt warehouse, ange namn
         Warehouse warehouse = new Warehouse("Varuhuset");
 
-        //lägga till varor
+        //lägg till products i listan i warehouse
         warehouse.addProduct(UUID.randomUUID(), "Banan",Category.of("fruit"), BigDecimal.valueOf(700,2));
         warehouse.addProduct(UUID.randomUUID(), "Strömming",Category.of("fish"), BigDecimal.valueOf(1300,3));
 
-        var productRecord = warehouse.addProduct(UUID.randomUUID(), "Test", Category.of("Test"), null);
-        System.out.println(productRecord);
+
+        //skapa lista som uppdateras med ändrade varor, alltså varje gång en vara ändras - metod getChangedProducts
+        // om varan har uppdaterats förut skall den gamla varan tas bort. Ska det vara ett hashSet
+        // lägga listan i warehouse??
         System.out.println(warehouse);
     }
 
-        //lägg till products i listan i warehouse
+
         //Sortera efter varan
         //ta bort varor ur listan
         //söka vara efter UUID
-
+        //
         //göra map över alla kategorier
 //        Map<Category, List<ProductRecord>> aMapWithAllProductsForEachCategory = new HashMap<>();
 
@@ -33,7 +35,8 @@ public class Warehouse {
 
     private Warehouse(String name) {
     }
-    public static List<ProductRecord> products = new ArrayList<>();
+    private final List<ProductRecord> addedProducts = new ArrayList<>();
+    private final List<ProductRecord> changedProducts = new ArrayList<>();
 
     public static Warehouse getInstance(String name) {
         if (name == null)
@@ -42,13 +45,18 @@ public class Warehouse {
         return new Warehouse(name);
     }
 
-    public Optional<List<ProductRecord>> getProducts() {
-        return Optional.ofNullable(products);
-    }
+    public List<ProductRecord> getProducts() {
+        return Collections.unmodifiableList(addedProducts);
 
-    public Optional<List<ProductRecord>> isEmpty(Warehouse warehouse) {
-        return warehouse.getProducts();
+    public boolean isEmpty() {
+        return addedProducts.isEmpty();
     }
+/*
+
+
+    }
+     */
+
 
     public ProductRecord addProduct(UUID uuid, String product, Category category, BigDecimal price) {
         return new ProductRecord(UUID.randomUUID(), product, category, price);
@@ -66,21 +74,33 @@ public class Warehouse {
     }
 
     public void updateProductPrice(UUID uuid, BigDecimal price) {
-    //Uppdatera pris i ProductRecord sök på uuid, uppdatera ny pris
+    //Uppdatera pris i ProductRecord sök på uuid, uppdatera nytt pris, uppdatera ArrayList med ändrade produkter
+    // BigDecimal price är det nya priset
+        //hitta rätt productRecord via uuid
+        //uppdatera priset
+        // kolla om det finns i changedProducts, ta bort om det finns.
+        // lägga till productRecord i changedProducts
+
+        // lägga till changedProducts.add();
+
+
 
 
     }
 
     public boolean getChangedProducts() {
-        //
+        //metod att fånga ändrade produkter
+        return false;
     }
 
     public boolean getProductsGroupedByCategories() {
-        // HashMap
+        // HashMap??
+        return false;
     }
 
     public ProductRecord getProductsBy(Category category) {
         //sortera produktlista efter kategorier
+        return null;
     }
 }
 
