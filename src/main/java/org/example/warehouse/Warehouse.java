@@ -15,6 +15,7 @@ public class Warehouse {
         //lägg till products i listan i warehouse
         warehouse.addProduct(UUID.randomUUID(), "Banan",Category.of("fruit"), BigDecimal.valueOf(700,2));
         warehouse.addProduct(UUID.randomUUID(), "Strömming",Category.of("fish"), BigDecimal.valueOf(1300,3));
+        warehouse.addProduct(UUID.randomUUID(), "Ost",Category.of("Dairy"), BigDecimal.valueOf(1300,3));
 
         ProductRecord produkt = new ProductRecord(UUID.randomUUID(), "Ost", Category.of("Dairy"), BigDecimal.valueOf(2342,12));
         produkt.setPrice(BigDecimal.valueOf(342,3));
@@ -89,14 +90,12 @@ public class Warehouse {
         //}
     }
 
-    public Optional <List<ProductRecord>> getChangedProducts() {
-        //todo: Om en productRecord tas bort så ska den tas bort från addedProduct och changedProducts
+    public List<ProductRecord> getChangedProducts() {
+        //todo: ?? Om en productRecord tas bort så ska den tas bort från addedProduct och changedProducts
 
-            if (!changedProducts.isEmpty()) {
-                return Optional.of(changedProducts);
-            }
 
-        return Optional.empty();
+                return List.copyOf(changedProducts);
+
     }
 
     public boolean getProductsGroupedByCategories() {
