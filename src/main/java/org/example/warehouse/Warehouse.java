@@ -11,7 +11,7 @@ public class Warehouse {
 
         // Skapar ett nytt warehouse, ange namn
         Warehouse warehouse = new Warehouse("Varuhuset");
-
+        Warehouse warehouse2 = getInstance("Haruvuset");
         //lägg till products i listan i warehouse
         warehouse.addProduct(UUID.randomUUID(), "Banan",Category.of("fruit"), BigDecimal.valueOf(700,2));
         warehouse.addProduct(UUID.randomUUID(), "Strömming",Category.of("fish"), BigDecimal.valueOf(1300,3));
@@ -24,7 +24,8 @@ public class Warehouse {
         // om varan har uppdaterats förut skall den gamla varan tas bort. Ska det vara ett hashSet
         // lägga listan i warehouse??
 
-        System.out.println(warehouse);
+        System.out.println(warehouse.addedProducts);
+        System.out.println(warehouse2.addedProducts);
 
 
     }
@@ -39,16 +40,23 @@ public class Warehouse {
 
 
 
+    private String name;
+    private List<ProductRecord> addedProducts = new ArrayList<>();
+    private List<ProductRecord> changedProducts = new ArrayList<>();
+
+    private static Warehouse instance;
+
     private Warehouse(String name) {
+        this.name = name;
+        this.addedProducts = new ArrayList<>();
+        this.changedProducts = new ArrayList<>();
     }
-    private final List<ProductRecord> addedProducts = new ArrayList<>();
-    private final List<ProductRecord> changedProducts = new ArrayList<>();
 
     public static Warehouse getInstance(String name) {
-        if (name == null)
-            throw new RuntimeException();
-
-        return new Warehouse(name);
+        if (instance == null) {
+            instance = new Warehouse(name);
+        }
+        return instance;
     }
 
     public List<ProductRecord> getProducts() {
