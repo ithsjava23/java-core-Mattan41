@@ -55,51 +55,52 @@ public class Warehouse {
 
     public ProductRecord addProduct(UUID uuid, String product, Category category, BigDecimal price) {
         return new ProductRecord(UUID.randomUUID(), product, category, price);
+        //todo: kolla att uuid inte redan är upptaget innan uuid assignas??
     }
 
-    public ProductRecord getProductById (UUID uuid) {
+    public Optional<ProductRecord> getProductById (UUID uuid) {
 
+        for (ProductRecord product : addedProducts) {
 
-        for (ProductRecord productRecord : addedProducts) {
-            //try {
                 if (ProductRecord.uuid.equals(uuid)) {
-                    return productRecord;
+                    return Optional.of(product);
                 }
-           // } catch //(NullPointerException e){ return isEmpty();{}
         }
-            return null;
+        return Optional.empty();
+
     }
-
     public void updateProductPrice(UUID uuid, BigDecimal price) {
-    //Uppdatera pris i ProductRecord sök på uuid, uppdatera nytt pris, uppdatera ArrayList med ändrade produkter
-    // BigDecimal price är det nya priset
-        //hitta rätt productRecord via uuid
-        //uppdatera priset
-        // kolla om det finns i changedProducts, ta bort om det finns.
-        // lägga till productRecord i changedProducts
+    //todo fixa denna
+        // addedProducts.stream().filter(addedProducts -> ProductRecord.uuid.equals(uuid)).toList() ??
 
+        //Uppdatera pris på object i ProductRecord sök på uuid, uppdatera nytt pris, uppdatera ArrayList med ändrade produkter
+        // BigDecimal price är det nya priset
+
+        //hitta rätt productRecord via uuid, söka igenom addedProduct (get på uuid)
+        //uppdatera priset på objectet
+        // kolla om productRecord finns i changedProducts, söka på uuid, ta bort det gamla objectet om det redan finns.
+        // lägga till nya productRecord i changedProducts
         // lägga till changedProducts.add();
-
-
 
 
     }
 
     public boolean getChangedProducts() {
-        //metod att fånga ändrade produkter - stream?
+        //todo: denna.
+        // metod att fånga ändrade produkter - stream?
+        //bara returera changedProducts - eller även empty om tom
         return false;
     }
 
     public boolean getProductsGroupedByCategories() {
-        // använda stream
+        // todo: sortera array addedProducts efter category, eller skapa en hashmap
         return false;
     }
 
     public List<ProductRecord> getProductsBy(Category category) {
-        //streams sortera produktlista efter kategorier
+
         return addedProducts.stream().filter(addedProducts -> ProductRecord.category.equals(category)).toList();
-                //().filter(ProductRecord -> ProductRecord.category).toList()
-                //;
+
     }
 }
 

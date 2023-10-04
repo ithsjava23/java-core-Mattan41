@@ -56,9 +56,11 @@ public class ProductRecord implements Comparable{
     }
 
 
+
     public UUID uuid() {
             return uuid;
     }
+
 
     public Category category() {
         return category;
