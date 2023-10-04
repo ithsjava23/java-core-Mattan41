@@ -16,11 +16,16 @@ public class Warehouse {
         warehouse.addProduct(UUID.randomUUID(), "Banan",Category.of("fruit"), BigDecimal.valueOf(700,2));
         warehouse.addProduct(UUID.randomUUID(), "Strömming",Category.of("fish"), BigDecimal.valueOf(1300,3));
 
+        ProductRecord produkt = new ProductRecord(UUID.randomUUID(), "Ost", Category.of("Dairy"), BigDecimal.valueOf(2342,12));
+        produkt.setPrice(BigDecimal.valueOf(342,3));
 
         //skapa lista som uppdateras med ändrade varor, alltså varje gång en vara ändras - metod getChangedProducts
         // om varan har uppdaterats förut skall den gamla varan tas bort. Ska det vara ett hashSet
         // lägga listan i warehouse??
+
         System.out.println(warehouse);
+
+
     }
 
 
@@ -50,7 +55,7 @@ public class Warehouse {
     }
 
     public boolean isEmpty() {
-        return changedProducts.isEmpty();
+        return addedProducts.isEmpty();
     }
 
     public ProductRecord addProduct(UUID uuid, String product, Category category, BigDecimal price) {
@@ -71,29 +76,31 @@ public class Warehouse {
     }
     public void updateProductPrice(UUID uuid, BigDecimal price) {
     //todo fixa denna
-        // addedProducts.stream().filter(addedProducts -> ProductRecord.uuid.equals(uuid)).toList() ??
+        //uppdatera priset
+        addedProducts.stream().filter(addedProducts -> ProductRecord.uuid.equals(uuid)).forEach(product -> product.setPrice(price));
+        //ta bort tidigare instans om det finns i changedProducts
+        changedProducts.removeIf(ProductRecord -> ProductRecord.uuid().equals(uuid));
 
-        //Uppdatera pris på object i ProductRecord sök på uuid, uppdatera nytt pris, uppdatera ArrayList med ändrade produkter
-        // BigDecimal price är det nya priset
+        //lägg till kopia av det nya objectet till changedProducts
+        //changedProducts.add(getProductById(uuid));
 
-        //hitta rätt productRecord via uuid, söka igenom addedProduct (get på uuid)
-        //uppdatera priset på objectet
-        // kolla om productRecord finns i changedProducts, söka på uuid, ta bort det gamla objectet om det redan finns.
-        // lägga till nya productRecord i changedProducts
-        // lägga till changedProducts.add();
-
-
+        // if (!addedProducts.isEmpty()) {
+        //    changedProducts.add(addedProducts.get(0));
+        //}
     }
 
-    public boolean getChangedProducts() {
-        //todo: denna.
-        // metod att fånga ändrade produkter - stream?
-        //bara returera changedProducts - eller även empty om tom
-        return false;
+    public Optional <List<ProductRecord>> getChangedProducts() {
+        //todo: Om en productRecord tas bort så ska den tas bort från addedProduct och changedProducts
+
+            if (!changedProducts.isEmpty()) {
+                return Optional.of(changedProducts);
+            }
+
+        return Optional.empty();
     }
 
     public boolean getProductsGroupedByCategories() {
-        // todo: sortera array addedProducts efter category, eller skapa en hashmap
+        // todo: sortera array addedProducts efter category, eller skapa en hashmap via Stream?
         return false;
     }
 
