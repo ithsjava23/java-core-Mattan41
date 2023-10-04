@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-public class ProductRecord {
+public class ProductRecord implements Comparable{
 
     static UUID uuid;
     static String product;
@@ -64,4 +64,9 @@ public class ProductRecord {
         return category;
     }
 
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
 }

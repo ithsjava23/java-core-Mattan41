@@ -50,7 +50,7 @@ public class Warehouse {
     }
 
     public boolean isEmpty() {
-        return addedProducts.isEmpty();
+        return changedProducts.isEmpty();
     }
 
     public ProductRecord addProduct(UUID uuid, String product, Category category, BigDecimal price) {
@@ -59,13 +59,15 @@ public class Warehouse {
 
     public ProductRecord getProductById (UUID uuid) {
 
-            for (ProductRecord product : products) {
-                if (ProductRecord.uuid.equals(uuid)) {
-                    return product;
-                }
-            }
-            return null;
 
+        for (ProductRecord productRecord : addedProducts) {
+            //try {
+                if (ProductRecord.uuid.equals(uuid)) {
+                    return productRecord;
+                }
+           // } catch //(NullPointerException e){ return isEmpty();{}
+        }
+            return null;
     }
 
     public void updateProductPrice(UUID uuid, BigDecimal price) {
@@ -84,18 +86,20 @@ public class Warehouse {
     }
 
     public boolean getChangedProducts() {
-        //metod att fånga ändrade produkter
+        //metod att fånga ändrade produkter - stream?
         return false;
     }
 
     public boolean getProductsGroupedByCategories() {
-        // HashMap??
+        // använda stream
         return false;
     }
 
-    public ProductRecord getProductsBy(Category category) {
-        //sortera produktlista efter kategorier
-        return null;
+    public List<ProductRecord> getProductsBy(Category category) {
+        //streams sortera produktlista efter kategorier
+        return addedProducts.stream().filter(addedProducts -> ProductRecord.category.equals(category)).toList();
+                //().filter(ProductRecord -> ProductRecord.category).toList()
+                //;
     }
 }
 
