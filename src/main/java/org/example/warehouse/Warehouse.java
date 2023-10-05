@@ -17,15 +17,8 @@ public class Warehouse {
         warehouse.addProduct(UUID.randomUUID(), "Strömming",Category.of("fish"), BigDecimal.valueOf(1300,3));
         warehouse.addProduct(UUID.randomUUID(), "Ost",Category.of("Dairy"), BigDecimal.valueOf(1300,3));
 
-        ProductRecord produkt = new ProductRecord(UUID.randomUUID(), "Ost", Category.of("Dairy"), BigDecimal.valueOf(2342,12));
-        produkt.setPrice(BigDecimal.valueOf(342,3));
+        warehouse.updateProductPrice(UUID.randomUUID(), BigDecimal.valueOf(453,34));
 
-        //skapa lista som uppdateras med ändrade varor, alltså varje gång en vara ändras - metod getChangedProducts
-        // om varan har uppdaterats förut skall den gamla varan tas bort. Ska det vara ett hashSet
-        // lägga listan i warehouse??
-
-        System.out.println(warehouse.addedProducts);
-        System.out.println(warehouse2.addedProducts);
 
 
     }
@@ -60,7 +53,8 @@ public class Warehouse {
     }
 
     public List<ProductRecord> getProducts() {
-        return Collections.unmodifiableList(addedProducts);
+        //return Collections.unmodifiableList(addedProducts);
+        return List.copyOf(addedProducts);
     }
 
     public boolean isEmpty() {
@@ -68,7 +62,21 @@ public class Warehouse {
     }
 
     public ProductRecord addProduct(UUID uuid, String product, Category category, BigDecimal price) {
-        return new ProductRecord(UUID.randomUUID(), product, category, price);
+
+        if (Objects.equals(product, "") || product == null)
+            throw new IllegalArgumentException("Product name can't be null or empty.");
+        if (category == null)
+            throw new IllegalArgumentException("Category can't be null.");
+
+        //if (addedProducts.stream().allMatch(ProductRecord -> ProductRecord.getUuid().equals(uuid))) {
+        //    throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
+        //}
+
+//  todo: se över... vi kommer att träna på att hitta specifika fält i object..      if (uuid == null)
+//            uuid = UUID.randomUUID();
+        //addedProducts.add(new ProductRecord(uuid, product, category, price));
+        return new ProductRecord(uuid, product, category, price);
+
         //todo: kolla att uuid inte redan är upptaget innan uuid assignas??
     }
 
@@ -85,13 +93,23 @@ public class Warehouse {
     }
     public void updateProductPrice(UUID uuid, BigDecimal price) {
     //todo fixa denna
-        //uppdatera priset
-        addedProducts.stream().filter(addedProducts -> ProductRecord.uuid.equals(uuid)).forEach(product -> product.setPrice(price));
-        //ta bort tidigare instans om det finns i changedProducts
+
+        /*//ta bort tidigare instans om det finns i changedProducts
         changedProducts.removeIf(ProductRecord -> ProductRecord.uuid().equals(uuid));
+        //Uppdatera priset
+        addedProducts.stream().filter(addedProducts -> ProductRecord.uuid.equals(uuid)).forEach(product -> product.setPrice(price));
+        //lägga till i changedProducts
+        addedProducts.stream().filter(product -> ProductRecord.uuid.equals(uuid)).forEach(product -> changedProducts.add(product));
+
+         */
+        addedProducts.stream().filter(product -> ProductRecord.uuid.equals(uuid)).peek(product -> product.setPrice(price)).forEach(changedProducts::add);
+
+
+
+
 
         //lägg till kopia av det nya objectet till changedProducts
-        //changedProducts.add(getProductById(uuid));
+
 
         // if (!addedProducts.isEmpty()) {
         //    changedProducts.add(addedProducts.get(0));
@@ -100,7 +118,6 @@ public class Warehouse {
 
     public List<ProductRecord> getChangedProducts() {
         //todo: ?? Om en productRecord tas bort så ska den tas bort från addedProduct och changedProducts
-
 
                 return List.copyOf(changedProducts);
 
