@@ -52,20 +52,28 @@ public class Warehouse {
 
     public ProductRecord addProduct(UUID uuid, String product, Category category, BigDecimal price) {
 
-        if (Objects.equals(product, "") || product == null)
+    /*    if (Objects.equals(product, "") || product == null)
             throw new IllegalArgumentException("Product name can't be null or empty.");
+
         if (category == null)
             throw new IllegalArgumentException("Category can't be null.");
 
         if (addedProducts.stream().anyMatch(ProductRecord -> ProductRecord.uuid().equals(uuid))) {
             throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
         }
+     */
 
-//  todo: se över... vi kommer att träna på att hitta specifika fält i object..
+        Optional.ofNullable(product).filter(p -> !p.isBlank()).orElseThrow(() -> new IllegalArgumentException("Product name can't be null or empty."));
+
+        Optional.ofNullable(category).orElseThrow(() -> new IllegalArgumentException("Category can't be null."));
+
+        addedProducts.stream().filter(ProductRecord -> ProductRecord.uuid().equals(uuid)).findFirst().ifPresent(ProductRecord -> {
+            throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");
+                });
+
         addedProducts.add(new ProductRecord(uuid, product, category, price));
         return new ProductRecord(uuid, product, category, price);
 
-        //todo: kolla att uuid inte redan är upptaget innan uuid assignas??
     }
 
     public Optional<ProductRecord> getProductById (UUID uuid) {
