@@ -7,22 +7,9 @@ import java.util.Objects;
 
 public class Category implements Comparable{
 
+    private final String name;
 
-
-    //public class MyClass {
-      //  private static Map<String, MyClass> instances = new HashMap<>();
-        //private String name;
-
-       // private MyClass(String name) {
-        //    this.name = name;
-        //}
-
-
-
-
-    private String name;
-
-    private static Map<String, Category> instances = new HashMap<>();
+    private static final Map<String, Category> instances = new HashMap<>();
     private Category(String name) {
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1);
     }
@@ -31,10 +18,9 @@ public class Category implements Comparable{
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    //public void setName(String name) {
+    //    this.name = name;
+    //}
 
     public static Category of(String name) {
 
