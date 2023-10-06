@@ -39,7 +39,7 @@ public class Warehouse {
         Optional.ofNullable(product).filter(p -> !p.isBlank()).orElseThrow(() -> new IllegalArgumentException("Product name can't be null or empty."));
 
         Optional.ofNullable(category).orElseThrow(() -> new IllegalArgumentException("Category can't be null."));
-        //Optional.ofNullable(uuid).orElse(uuid = UUID.randomUUID());
+
         if (uuid == null)
             uuid = UUID.randomUUID();
 
