@@ -13,7 +13,7 @@ public class ProductRecord implements Comparable{
 
 
     public ProductRecord(UUID uuid, String product, Category category, BigDecimal price) {
-        ProductRecord.uuid = Objects.requireNonNullElse(uuid, UUID.randomUUID());
+        ProductRecord.uuid = uuid;
         ProductRecord.product = product;
         ProductRecord.category = category;
         this.price = Objects.requireNonNullElse(price, BigDecimal.ZERO);
@@ -47,7 +47,7 @@ public class ProductRecord implements Comparable{
         this.price = Objects.requireNonNullElse(price, BigDecimal.ZERO);
     }
 
-
+    public String product(){return product;}
     public UUID uuid() {
             return uuid;
     }
