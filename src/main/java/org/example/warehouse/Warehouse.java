@@ -8,22 +8,26 @@ import java.util.stream.Collectors;
 public class Warehouse {
 
     public static void main(String[] args) {
-
+/*
         // todo: ta bort main innan klar
         // Skapar ett nytt warehouse, ange namn
         Warehouse warehouse2 = getInstance("Varuhuset");
         //lägg till products i listan i warehouse
-        warehouse2.addProduct(null, "Banan",Category.of("fruit"), BigDecimal.valueOf(700,2));
-        warehouse2.addProduct(null, "Strömming",Category.of("fish"), BigDecimal.valueOf(1300,3));
+        UUID uuid1 = UUID.randomUUID();
+        warehouse2.addProduct(uuid1, "Banan",Category.of("fruit"), BigDecimal.valueOf(700,2));
         warehouse2.addProduct(null, "Ost",Category.of("Dairy"), BigDecimal.valueOf(1300,3));
+        warehouse2.addProduct(null, "Strömming",Category.of("fish"), BigDecimal.valueOf(1300,3));
+
+
         //System.out.println(warehouse2.addedProducts.stream().toList());
         System.out.println();
         //System.out.println(warehouse2.addedProducts.stream().map(Object::toString).collect(Collectors.toList()));
-        warehouse2.addedProducts.stream()
+        List<String> stringList = warehouse2.addedProducts.stream()
                 .map(p -> String.format("%s, %s, %s, %.2f", p.uuid(), p.product(), p.category(), p.price()))
-                .forEach(System.out::println);
+                .collect(Collectors.toList());
 
-
+        System.out.println(stringList);
+*/
 
     }
 
@@ -60,18 +64,22 @@ public class Warehouse {
         Optional.ofNullable(product).filter(p -> !p.isBlank()).orElseThrow(() -> new IllegalArgumentException("Product name can't be null or empty."));
 
         Optional.ofNullable(category).orElseThrow(() -> new IllegalArgumentException("Category can't be null."));
+        //Optional.ofNullable(uuid).orElse(uuid = UUID.randomUUID());
         if (uuid == null)
             uuid = UUID.randomUUID();
+
         checkIfIdAlreadyExist(uuid);
 
-        // todo if (addedProducts.isEmpty())
-            addedProducts.add(new ProductRecord(uuid, product, category, price));
+        Optional.ofNullable(price).orElse(price = BigDecimal.ZERO);
+
+        //addedProducts.add(new ProductRecord(uuid, product, category, price));
+        addedProducts.add(new ProductRecord(uuid, product, category, price));
         return new ProductRecord(uuid, product, category, price);
 
     }
 
     private void checkIfIdAlreadyExist(UUID uuid) {
-        addedProducts.stream().filter(ProductRecord -> ProductRecord.uuid().equals(uuid)).findFirst().ifPresent(ProductRecord -> {
+        addedProducts.stream().filter(p -> p.uuid().equals(uuid)).findAny().ifPresent(ProductRecord -> {
             throw new IllegalArgumentException("Product with that id already exists, use updateProduct for updates.");});
     }
 
@@ -91,27 +99,26 @@ public class Warehouse {
         return addedProducts.stream().filter(p -> p.uuid().equals(uuid)).findAny();
 
     }
+
     public void updateProductPrice(UUID uuid, BigDecimal price) {
-    //todo fixa denna
 
-        if (addedProducts.stream().noneMatch(ProductRecord -> ProductRecord.uuid().equals(uuid))) {
+        Optional<ProductRecord> oldRecord = addedProducts.stream()
+                .filter(p -> p.uuid().equals(uuid))
+                .findFirst();
+
+        if (oldRecord.isEmpty())
             throw new IllegalArgumentException("Product with that id doesn't exist.");
+        else {
+            ProductRecord newRecord = new ProductRecord(uuid, oldRecord.get().product(), oldRecord.get().category(), price);
+
+            addedProducts.remove(oldRecord.get());
+            addedProducts.add(newRecord);
+
+            changedProducts.removeIf(p -> p.uuid().equals(uuid));
+            changedProducts.add(oldRecord.get());
         }
-
-        /*//ta bort tidigare instans om det finns i changedProducts
-        changedProducts.removeIf(ProductRecord -> ProductRecord.uuid().equals(uuid));
-        //Uppdatera priset
-        addedProducts.stream().filter(addedProducts -> ProductRecord.uuid.equals(uuid)).forEach(product -> product.setPrice(price));
-        //lägga till i changedProducts
-        addedProducts.stream().filter(product -> ProductRecord.uuid.equals(uuid)).forEach(product -> changedProducts.add(product));
-         */
-        addedProducts.stream().filter(product -> ProductRecord.uuid.equals(uuid))
-                .peek(product -> product.setPrice(price))
-                .forEach(changedProducts::add);
-
     }
-
-    public List<ProductRecord> getChangedProducts() {
+        public List<ProductRecord> getChangedProducts() {
         //todo: ?? Om en productRecord tas bort så ska den tas bort från addedProduct och changedProducts
                 //return List.copyOf(changedProducts);
                 return changedProducts.stream().toList();
@@ -123,12 +130,12 @@ public class Warehouse {
     }
 
     public List<ProductRecord> getProductsBy(Category category) {
-
         return addedProducts.stream()
-                .filter(addedProducts -> ProductRecord.category.equals(category))
+                .filter(p -> p.category().equals(category))
                 .toList();
-
     }
+
+
 }
 
 
