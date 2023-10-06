@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class Category implements Comparable{
+public class Category{
 
     private final String name;
 
@@ -18,9 +18,6 @@ public class Category implements Comparable{
         return name;
     }
 
-    //public void setName(String name) {
-    //    this.name = name;
-    //}
 
     public static Category of(String name) {
 
@@ -45,11 +42,6 @@ public class Category implements Comparable{
     @Override
     public int hashCode() {
         return Objects.hash(name);
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return 0;
     }
 
 }

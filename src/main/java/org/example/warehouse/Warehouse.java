@@ -7,12 +7,10 @@ import java.util.stream.Collectors;
 
 public class Warehouse {
 
-    public static void main(String[] args) {
-    }
 
     private String name;
-    private List<ProductRecord> addedProducts = new ArrayList<>();
-    private List<ProductRecord> changedProducts = new ArrayList<>();
+    private final List<ProductRecord> addedProducts;
+    private final List<ProductRecord> changedProducts;
     private static Warehouse instance;
 
     private Warehouse(String name) {
