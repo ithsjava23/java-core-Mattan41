@@ -18,7 +18,6 @@ public class Category{
         return name;
     }
 
-
     public static Category of(String name) {
 
         if (name == null)
@@ -29,7 +28,6 @@ public class Category{
         }
         return instances.get(name);
     }
-
 
     @Override
     public boolean equals(Object o) {
