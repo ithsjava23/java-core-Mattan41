@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 
 public class Warehouse {
 
-
+    public static void main(String[] args) {
+    }
     private String name;
     private final List<ProductRecord> addedProducts;
     private final List<ProductRecord> changedProducts;
